@@ -7,6 +7,6 @@ namespace Web.Controllers.Interface
 {
     public interface IInscripcionesController : IGenericController<InscripcionesDto, Inscripciones>
     {
-        Task<IActionResult> UpdatePartial(int id, int authorId, UpdateInscripcionesDto dto);
+        Task<IActionResult> UpdatePartial(int id, UpdateInscripcionesDto dto);
     }
 }

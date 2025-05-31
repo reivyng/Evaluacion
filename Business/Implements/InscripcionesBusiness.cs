@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Business.Implements
 {
-    public class InscripcionesBusiness : BaseBusiness<Inscripciones, InscripcionesDto>, IInscipcionesBusiness
+    public class InscripcionesBusiness : BaseBusiness<Inscripciones, InscripcionesDto>, IInscripcionesBusiness
     {
         private readonly IInscripcionesData _inscripcionesData;
         private readonly IValidator<InscripcionesDto> _validator;
@@ -24,7 +24,7 @@ namespace Business.Implements
             _validator = validator;
         }
 
-        public async Task<bool> UpdatePartialAuthorAsync(UpdateInscripcionesDto dto)
+        public async Task<bool> UpdatePartialAsync(UpdateInscripcionesDto dto)
         {
             if (dto.Id <= 0)
                 throw new ArgumentException("ID inválido.");

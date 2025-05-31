@@ -22,7 +22,7 @@ namespace Business.Implements
             _validator = validator;
         }
 
-        public async Task<bool> UpdatePartialAuthorAsync(UpdateEstudiantesDto dto)
+        public async Task<bool> UpdatePartialAsync(UpdateEstudiantesDto dto)
         {
             if (dto.Id <= 0)
                 throw new ArgumentException("ID inválido.");
@@ -34,7 +34,7 @@ namespace Business.Implements
         ///<summary>
         /// Desactiva un estudiante en la base de datos
         /// </summary>
-        public async Task<bool> DeleteLogicEstudianteAsync(ActiveEstudiantesDto dto)
+        public async Task<bool> ActiveAsync(ActiveEstudiantesDto dto)
         {
             if (dto == null || dto.Id <= 0)
                 throw new ValidationException("Id");

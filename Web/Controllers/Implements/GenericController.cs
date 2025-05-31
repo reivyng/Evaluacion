@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Business.Interfaces;
-using Entity.Model.Base;
-using Entity.Dtos.Base;
+using Entity.Dtos.BaseDTO;
+using Entity.Model;
 
 namespace Web.Controllers.Implements
 {
     [ApiController]
-    public abstract class GenericController<TDto, TEntity> : ControllerBase
-    where TEntity : BaseModel
-    where TDto : BaseDto
+    public abstract class GenericController<TDto, TEntity> : ControllerBase where TEntity : BaseEntity where TDto : BaseDto
     {
         protected readonly IBaseBusiness<TEntity, TDto> _business;
         protected readonly ILogger<GenericController<TDto, TEntity>> _logger;
@@ -18,10 +16,6 @@ namespace Web.Controllers.Implements
             _business = business;
             _logger = logger;
         }
-   
-
-
-
 
         [HttpGet]
         public virtual async Task<IActionResult> GetAll()
@@ -118,19 +112,6 @@ namespace Web.Controllers.Implements
                 _logger.LogError($"Error al eliminar registro con ID {id}: {ex.Message}");
                 return StatusCode(500, "Error interno del servidor");
             }
-        }
-        /// <summary>
-        /// Elimina lógicamente un registro por su ID.
-        /// </summary>
-        /// <param name="id">ID del registro a eliminar</param>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> SoftActive(int id)
-        {
-            var result = await _business.SoftDeleteAsync(id);
-            if (!result)
-                return NotFound();
-
-            return NoContent();
         }
 
         // Método abstracto para obtener el ID de la entidad creada para el CreatedAtAction

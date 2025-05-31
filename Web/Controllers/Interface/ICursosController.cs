@@ -7,7 +7,7 @@ namespace Web.Controllers.Interface
 {
     public interface ICursosController : IGenericController<CursosDto, Cursos>
     {
-        Task<IActionResult> UpdatePartial(int id, int authorId, UpdateCursosDto dto);
-        Task<IActionResult> DeleteLogic(int id);
+        Task<IActionResult> UpdatePartial(int id, UpdateCursosDto dto);
+        Task<IActionResult> DeleteLogic(int id, ActiveCursosDto dto);
     }
 }
