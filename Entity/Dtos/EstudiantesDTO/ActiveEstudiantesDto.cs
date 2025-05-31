@@ -1,8 +1,9 @@
-﻿namespace Entity.Dtos.EstudiantesDTO
+﻿using Entity.Dtos.BaseDTO;
+
+namespace Entity.Dtos.EstudiantesDTO
 {
-    public class ActiveEstudiantesDto
+    public class ActiveEstudiantesDto : BaseDto
     {
-        public int Id { get; set; }
         public bool Status { get; set; }
     }
 }

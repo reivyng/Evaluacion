@@ -1,6 +1,8 @@
-﻿namespace Entity.Dtos.CursosDTO
+﻿using Entity.Dtos.BaseDTO;
+
+namespace Entity.Dtos.CursosDTO
 {
-    public class UpdateCursosDto
+    public class UpdateCursosDto : BaseDto
     {
         public string Descripcion { get; set; }
         public DateTime FechaFin { get; set; }
