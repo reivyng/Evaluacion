@@ -2,9 +2,9 @@
 
 namespace Data.Interfaces
 {
-    public interface IEstudiantesData : IBaseModelData<Estudiantes>
+    public interface IEstudiantesData : IBaseData<Estudiantes>
     {
-        Task<bool> ActiveAsync(int id, bool status);
         Task<bool> UpdatePartial(Estudiantes estudiantes);
+        Task<bool> ActiveAsync(int id, bool status);
     }
 }

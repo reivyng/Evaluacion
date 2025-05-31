@@ -29,19 +29,19 @@ namespace Entity.Context
 
             // Configuración de la clave compuesta para la tabla pivote
             modelBuilder.Entity<Inscripciones>()
-                .HasKey(i => new { i.EstudiantesId, i.CursosId });
+                .HasKey(i => new { i.EstudianteId, i.CursoId });
 
             // Relación Estudiantes-Inscripciones
             modelBuilder.Entity<Inscripciones>()
                 .HasOne(i => i.Estudiante)
                 .WithMany(e => e.Inscripciones)
-                .HasForeignKey(i => i.EstudiantesId);
+                .HasForeignKey(i => i.EstudianteId);
 
             // Relación Cursos-Inscripciones
             modelBuilder.Entity<Inscripciones>()
                 .HasOne(i => i.Curso)
                 .WithMany(c => c.Inscripciones)
-                .HasForeignKey(i => i.CursosId);
+                .HasForeignKey(i => i.CursoId);
         }
 
         /// <summary>

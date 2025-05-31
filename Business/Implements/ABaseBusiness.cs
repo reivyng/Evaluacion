@@ -1,16 +1,11 @@
 using Business.Interfaces;
-using Data.Interfaces;
-using Entity.Dtos.Base;
-using Entity.Model.Base;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Entity.Dtos.BaseDTO;
+using Entity.Model;
 
 namespace Business.Implements
 {
 
-    public abstract class ABaseBusiness<T, D> : IBaseBusiness<T, D> where T : BaseModel where D : BaseDto
+    public abstract class ABaseBusiness<T, D> : IBaseBusiness<T, D> where T : BaseEntity where D : BaseDto
     {
 
 
@@ -62,10 +57,5 @@ namespace Business.Implements
         /// si la eliminaci?n fue exitosa (true) o si la entidad no exist?a (false).
         /// </returns>
         public abstract Task<bool> DeleteAsync(int id);
-
-        /// <summary>
-        /// Elimina una entidad de manera logica de  la fuente de datos por su identificador ?nico.
-        /// </summary>
-        public abstract Task<bool> SoftDeleteAsync(int id);
     }
 }

@@ -1,20 +1,13 @@
-﻿using Data.Implements.BaseDate;
+﻿using Data.Implements.ABaseData;
 using Entity.Context;
-using Entity.Model.Base;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Entity.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Dapper.SqlMapper;
 
 namespace Data.Implements.BaseData
 {
-    public class BaseModelData<T> : ABaseModelData<T> where T : BaseModel
+    public class BaseData <T> : ABaseData<T> where T : BaseEntity
     {
-        public BaseModelData(ApplicationDbContext context) : base(context)
+        public BaseData(ApplicationDbContext context) : base(context)
         {
         }
 
@@ -54,19 +47,6 @@ namespace Data.Implements.BaseData
             return true;
         }
 
-        /// <summary>
-        /// Eliminación lógica (cambio de estado a inactivo)
-        /// </summary>
-        /// <param name="id">ID de la entidad a desactivar</param>
-        /// <returns>True si se desactivó correctamente, False si no se encontró</returns>
-        public override async Task<bool> SoftDeleteAsync(int id)
-        {
-            var entity = await _dbSet.FindAsync(id);
-            if (entity == null) return false;
-
-            entity.Active = false;
-            await _context.SaveChangesAsync();
-            return true;
-        }
+      
     }
 }

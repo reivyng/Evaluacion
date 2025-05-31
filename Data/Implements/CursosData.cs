@@ -3,35 +3,39 @@ using Data.Interfaces;
 using Entity.Context;
 using Entity.Model;
 
-namespace Data.Implements.Security.RolData
+namespace Data.Implements
 {
-    public class CursosData : BaseModelData<CursosData>, IcursosData
+    public class CursosData : BaseData<Cursos>, IcursosData
     {
         public CursosData(ApplicationDbContext context) : base(context)
         {
         }
 
+        public async Task<bool> UpdatePartial(Cursos cursos)
+        {
+            var existingCursos = await _dbSet.FindAsync(cursos.Id);
+            if (existingCursos == null) return false;
+            // Actualizar solo los campos que se deseen modificar
+            existingCursos.Name = cursos.Name;
+            existingCursos.Descripcion = cursos.Descripcion;
+            existingCursos.Profesor = cursos.Profesor;
+            existingCursos.FechaFin = cursos.FechaFin;
+            _context.Set<Cursos>().Update(existingCursos);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> ActiveAsync(int id, bool active)
         {
-            var rol = await _context.Set<Cursos>().FindAsync(id);
-            if (rol == null)
+            var cursos = await _context.Set<Cursos>().FindAsync(id);
+            if (cursos == null)
                 return false;
 
-            rol.Status = active;
-            _context.Entry(rol).Property(r => r.Status).IsModified = true;
+            cursos.Status = active;
+            _context.Entry(cursos).Property(r => r.Status).IsModified = true;
 
             await _context.SaveChangesAsync();
             return true;
         }
-
-        public async Task<bool> UpdatePartial(Rol rol)
-        {
-            var existingRol = await _context.Roles.FindAsync(rol.Id);
-            if (existingRol == null) return false;
-            _context.Roles.Update(existingRol);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
     }
 }

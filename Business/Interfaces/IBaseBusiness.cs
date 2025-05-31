@@ -1,14 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Data.Implements.BaseDate;
-using Data.Interfaces;
-using Entity.Dtos.Base;
-using Entity.Model.Base;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Entity.Dtos.BaseDTO;
+using Entity.Model;
 
 namespace Business.Interfaces
 {
-    public interface IBaseBusiness<T, D> where T : BaseModel where D : BaseDto
+    public interface IBaseBusiness<T, D> where T : BaseEntity where D : BaseDto
        
     {
         /// <summary>
@@ -45,14 +40,5 @@ namespace Business.Interfaces
         ///<param name= "id">Identificador del registro a marcar como eliminado</param>
         ///<returns>True si la operaci�n fue exitosa; false en caso contrario </returns>
         Task<bool> DeleteAsync(int id);
-
-
-
-        /// <summary>
-        /// Elimina lógicamente un registro del sistema (cambio de estado a inactivo)
-        /// </summary>
-        /// <param name="id">Identificador del registro a desactivar</param>
-        /// <returns>True si la operación fue exitosa; false en caso contrario</returns>
-        Task<bool> SoftDeleteAsync(int id);
     }
 }

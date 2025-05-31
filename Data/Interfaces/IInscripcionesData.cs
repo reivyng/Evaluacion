@@ -2,7 +2,7 @@
 
 namespace Data.Interfaces
 {
-    public interface IInscripcionesData : IBaseModelData<Inscripciones>
+    public interface IInscripcionesData : IBaseData<Inscripciones>
     {
         Task<bool> UpdatePartial(Inscripciones inscripciones);
     }
