@@ -3,7 +3,6 @@ using Business.Interfaces;
 using Data.Interfaces;
 using Entity.Dtos.EstudiantesDTO;
 using Entity.Model;
-using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Utilities.Exceptions;
 using ValidationException = FluentValidation.ValidationException;
@@ -13,13 +12,11 @@ namespace Business.Implements
     public class EstudiantesBusiness : BaseBusiness<Estudiantes, EstudiantesDto>, IEstudiantesBusiness
     {
         private readonly IEstudiantesData _estudiantesData;
-        private readonly IValidator<EstudiantesDto> _validator;
 
-        public EstudiantesBusiness(IEstudiantesData estudiantesData, IMapper mapper, ILogger<EstudiantesBusiness> logger, IValidator<EstudiantesDto> validator)
-            : base(estudiantesData, mapper, logger, validator)
+        public EstudiantesBusiness(IEstudiantesData estudiantesData, IMapper mapper, ILogger<EstudiantesBusiness> logger)
+            : base(estudiantesData, mapper, logger)
         {
             _estudiantesData = estudiantesData;
-            _validator = validator;
         }
 
         public async Task<bool> UpdatePartialAsync(UpdateEstudiantesDto dto)

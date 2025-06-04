@@ -14,20 +14,35 @@ namespace Data.Implements.BaseData
         // Implementación completa de los métodos abstractos
         public override async Task<List<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return await _context.Set<T>()
+                .Where(e => EF.Property<bool>(e, "Status"))
+                .ToListAsync();
         }
+
 
         public override async Task<T> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            // Solo trae la entidad si está activa (Status == true)
+            return await _context.Set<T>()
+                .Where(e => EF.Property<int>(e, "Id") == id && EF.Property<bool>(e, "Status"))
+                .FirstOrDefaultAsync();
         }
+
 
         public override async Task<T> CreateAsync(T entity)
         {
+            // Si la entidad tiene la propiedad 'Status', la establecemos en true
+            var statusProp = typeof(T).GetProperty("Status");
+            if (statusProp != null && statusProp.PropertyType == typeof(bool))
+            {
+                statusProp.SetValue(entity, true);
+            }
+
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
+
 
         public override async Task<T> UpdateAsync(T entity)
         {

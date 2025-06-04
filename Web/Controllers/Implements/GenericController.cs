@@ -6,6 +6,7 @@ using Entity.Model;
 namespace Web.Controllers.Implements
 {
     [ApiController]
+    [Route("api/[controller]")]
     public abstract class GenericController<TDto, TEntity> : ControllerBase where TEntity : BaseEntity where TDto : BaseDto
     {
         protected readonly IBaseBusiness<TEntity, TDto> _business;

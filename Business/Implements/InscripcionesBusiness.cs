@@ -11,17 +11,14 @@ namespace Business.Implements
     public class InscripcionesBusiness : BaseBusiness<Inscripciones, InscripcionesDto>, IInscripcionesBusiness
     {
         private readonly IInscripcionesData _inscripcionesData;
-        private readonly IValidator<InscripcionesDto> _validator;
 
         public InscripcionesBusiness(
             IInscripcionesData inscripcionesData,
             IMapper mapper,
-            ILogger<InscripcionesBusiness> logger,
-            IValidator<InscripcionesDto> validator)
-            : base(inscripcionesData, mapper, logger, validator)
+            ILogger<InscripcionesBusiness> logger)
+            : base(inscripcionesData, mapper, logger)
         {
             _inscripcionesData = inscripcionesData;
-            _validator = validator;
         }
 
         public async Task<bool> UpdatePartialAsync(UpdateInscripcionesDto dto)

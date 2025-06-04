@@ -3,7 +3,6 @@ using Business.Interfaces;
 using Data.Interfaces;
 using Entity.Dtos.CursosDTO;
 using Entity.Model;
-using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Utilities.Exceptions;
 using ValidationException = FluentValidation.ValidationException;
@@ -13,16 +12,14 @@ namespace Business.Implements
     public class CursosBusiness : BaseBusiness<Cursos, CursosDto>, ICursosBusiness
     {
         private readonly IcursosData _cursosData;
-        private readonly IValidator<CursosDto> _validator;
 
-        public CursosBusiness(IcursosData cursosData, IMapper mapper, ILogger<CursosBusiness> logger, IValidator<CursosDto> validator)
-            : base(cursosData, mapper, logger, validator)
+        public CursosBusiness(IcursosData cursosData, IMapper mapper, ILogger<CursosBusiness> logger)
+            : base(cursosData, mapper, logger)
         {
             _cursosData = cursosData;
-            _validator = validator;
         }
 
-        public async Task<bool> UpdatePartialAuthorAsync(UpdateCursosDto dto)
+        public async Task<bool> UpdatePartialAsync(UpdateCursosDto dto)
         {
             if (dto.Id <= 0)
                 throw new ArgumentException("ID inválido.");
@@ -34,7 +31,7 @@ namespace Business.Implements
         ///<summary>
         /// Desactiva un rol en la base de datos
         /// </summary>
-        public async Task<bool> DeleteLogicRolAsync(ActiveCursosDto dto)
+        public async Task<bool> ActiveAsync(ActiveCursosDto dto)
         {
             if (dto == null || dto.Id <= 0)
                 throw new ValidationException("Id");

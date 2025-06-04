@@ -2,7 +2,6 @@ using AutoMapper;
 using Data.Interfaces;
 using Entity.Dtos.BaseDTO;
 using Entity.Model;
-using FluentValidation;
 using Microsoft.Extensions.Logging;
 
 namespace Business.Implements
@@ -34,45 +33,23 @@ namespace Business.Implements
         protected readonly ILogger _logger;
 
         /// <summary>
-        /// Validador de la entidad, usando FluentValidation.
-        /// </summary>
-        protected readonly IValidator<D> _validator;
-
-        /// <summary>
         /// Inicializa una nueva instancia de la clase BaseBusiness.
         /// </summary>
         /// <param name="data">Repositorio de datos para operaciones de persistencia</param>
         /// <param name="mapper">Instancia de AutoMapper para mapeo entre DTOs y entidades</param>
         /// <param name="logger">Logger para registrar eventos y errores durante las operaciones</param>
-        /// <param name="validator">Validador de DTOs</param>
         public BaseBusiness(
             IBaseData<T> data,
             IMapper mapper,
-            ILogger logger,
-            IValidator<D> validator)
+            ILogger logger)
             : base()
         {
             _data = data ?? throw new ArgumentNullException(nameof(data));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
-        /// <summary>
-        /// Valida un DTO utilizando FluentValidation.
-        /// </summary>
-        /// <param name="dto">DTO a validar</param>
-        /// <returns>Tarea que representa la validación asíncrona</returns>
-        /// <exception cref="ArgumentException">Si la validación falla</exception>
-        protected async Task EnsureValidAsync(D dto)
-        {
-            var validationResult = await _validator.ValidateAsync(dto);
-            if (!validationResult.IsValid)
-            {
-                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                throw new ArgumentException($"Validación fallida: {errors}");
-            }
-        }
+    
 
         /// <inheritdoc />
         public override async Task<List<D>> GetAllAsync()
@@ -111,7 +88,6 @@ namespace Business.Implements
         {
             try
             {
-                await EnsureValidAsync(dto);
                 var entity = _mapper.Map<T>(dto);
                 entity = await _data.CreateAsync(entity);
                 _logger.LogInformation($"Creando nuevo {typeof(T).Name}");
@@ -129,8 +105,7 @@ namespace Business.Implements
         {
             try
             {
-                await EnsureValidAsync(dto);
-                var entity = _mapper.Map<T>(dto);
+                    var entity = _mapper.Map<T>(dto);
                 entity = await _data.UpdateAsync(entity);
                 _logger.LogInformation($"Actualizando {typeof(T).Name} desde DTO");
                 return _mapper.Map<D>(entity);
